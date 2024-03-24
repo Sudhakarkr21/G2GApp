@@ -14,5 +14,7 @@ sealed class NavigationRoutes {
         object NavigationRoute : Authenticated(route = "authenticated")
         object Dashboard : Authenticated(route = "Dashboard")
         object Approval : Authenticated(route = "Approval")
+        object Home : Authenticated(route = "Home")
+        object MISDashBoard : Authenticated(route = "MisDashBoard")
     }
 }

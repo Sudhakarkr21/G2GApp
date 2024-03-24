@@ -56,7 +56,7 @@ import com.transvision.g2g.ui.screen.dashboard.tabs.SettingsTab
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DashboardScreen(navController: NavController) {
-    val tabs = listOf("Home", "Approve", "Settings")
+    val tabs = listOf("DashBoard", "Approve", "Settings")
 
     var selectedTab by remember { mutableStateOf(0) }
 
@@ -96,7 +96,7 @@ fun DashboardScreen(navController: NavController) {
 
             // Content for each tab
             when (selectedTab) {
-                0 -> HomeContent()
+                0 -> HomeContent(navController)
                 1 -> ApprovalTab(navController)
                 2 -> SettingsTab()
             }

@@ -6,10 +6,11 @@ import com.transvision.g2g.ui.common.state.ErrorState
  * Login State holding ui input values
  */
 data class LoginState(
-    val emailOrMobile: String = "",
-    val password: String = "",
+    val emailOrMobile: String = "superuser",
+    val password: String = "123",
     val errorState: LoginErrorState = LoginErrorState(),
-    val isLoginSuccessful: Boolean = false
+    val isLoginSuccessful: Boolean = false,
+    val loading : Boolean = false
 )
 
 /**

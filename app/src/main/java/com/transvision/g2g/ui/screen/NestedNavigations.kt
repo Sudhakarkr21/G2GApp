@@ -6,7 +6,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.transvision.g2g.ui.screen.approva.ApprovalScreen
 import com.transvision.g2g.ui.screen.dashboard.DashboardScreen
+import com.transvision.g2g.ui.screen.dashboard.misdashboard.MISDashBoardScreen
 import com.transvision.g2g.ui.screen.dashboard.tabs.ApprovalTab
+import com.transvision.g2g.ui.screen.dashboard.tabs.HomeContent
 import com.transvision.g2g.ui.screen.loginscreens.LoginScreen
 import com.transvision.g2g.ui.screen.registration.state.RegistrationScreen
 
@@ -71,6 +73,12 @@ fun NavGraphBuilder.authenticatedGraph(navController: NavController) {
         composable(route = NavigationRoutes.Authenticated.Approval.route + "/{item}"){
             val item = it.arguments?.getString("item")
             ApprovalScreen(item,navController)
+        }
+        composable(route = NavigationRoutes.Authenticated.MISDashBoard.route){
+            MISDashBoardScreen(navController)
+        }
+        composable(route = NavigationRoutes.Authenticated.Home.route){
+            HomeContent(navController)
         }
     }
 }

@@ -72,6 +72,9 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
                 val inputsValidated = validateInputs()
                 if (inputsValidated) {
                     viewModelScope.launch {
+                        loginState.value = loginState.value.copy(
+                            loading = true
+                        )
                         val loginResponse = loginRepository.loginResponse(
                             loginState.value.emailOrMobile,
                             loginState.value.password
@@ -85,6 +88,9 @@ class LoginViewModel @Inject constructor(private val loginRepository: LoginRepos
 
     private fun handleResponse(response: Response<List<LoginResponse>>) {
         Log.d(TAG, "handleResponse: ${response}")
+        loginState.value = loginState.value.copy(
+            loading = false
+        )
         if (response.isSuccessful) {
             response.body()?.let {
                 Log.d(TAG, "handleResponse: ${it.joinToString()}")

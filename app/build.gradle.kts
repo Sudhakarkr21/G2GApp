@@ -115,4 +115,8 @@ dependencies {
 
     //Coil Image
     implementation ("io.coil-kt:coil-compose:2.4.0")
+
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    implementation ("com.google.accompanist:accompanist-flowlayout:0.27.0")
 }
