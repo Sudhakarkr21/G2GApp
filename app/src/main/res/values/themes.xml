@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.G2G" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.G2G" parent="Theme.AppCompat.Light.DarkActionBar" >
+
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/black</item>
+        <item name="colorOnSecondary">@color/black</item>
+    </style>
 </resources>
