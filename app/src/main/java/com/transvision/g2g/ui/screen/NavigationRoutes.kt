@@ -16,5 +16,9 @@ sealed class NavigationRoutes {
         object Approval : Authenticated(route = "Approval")
         object Home : Authenticated(route = "Home")
         object MISDashBoard : Authenticated(route = "MisDashBoard")
+
+        object RNDDashBoard : Authenticated(route = "RNDDashBoard")
+        object VendorBoard : Authenticated(route = "VendorBoard")
+        object RTIBoard : Authenticated(route = "RTIDashBoard")
     }
 }

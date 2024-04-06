@@ -1,9 +1,12 @@
 package com.transvision.g2g.features.data.data_source
 
 import com.transvision.g2g.features.data.model.LoginResponse
+import com.transvision.g2g.ui.screen.dashboard.RTI.RTIModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MISDashBoardModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.SessionModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentModel
+import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDModel
+import com.transvision.g2g.ui.screen.dashboard.vendor.VendorModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -40,4 +43,37 @@ interface ApiService {
         @Query("Month_year") Month_year : String,
         @Query("ApiPassword") ApiPassword : String
     ) : Response<AccidentModel>
+
+    @GET("RD/GetMonthWiseDetails")
+    suspend fun getRNDData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("param") param : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<RNDModel>
+    @GET("RD/GetYearWiseDetails")
+    suspend fun getRNDDataYear(
+        @Query("DB_Name") DB_Name : String,
+        @Query("param") param : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<RNDModel>
+    @GET("RD/GetQuaterWiseDetails")
+    suspend fun getRNDDataQuarter(
+        @Query("DB_Name") DB_Name : String,
+        @Query("param") param : String,
+        @Query("Quater") Quater : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<RNDModel>
+
+    @GET("Vendor/GetDetails")
+    suspend fun getVendorDetails(
+        @Query("DB_Name") DB_Name : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<VendorModel>
+
+    @GET("RTI/RT_DashboardData")
+    suspend fun getRTIData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("paramss") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<RTIModel>
 }

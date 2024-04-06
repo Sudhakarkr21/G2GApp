@@ -43,6 +43,9 @@ fun HomeContent(navController: NavController) {
         cardView("MIS Dashboard", onClick = {
             navController.navigate(NavigationRoutes.Authenticated.MISDashBoard.route)
         })
+        cardView("RND Dashboard", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.RNDDashBoard.route)
+        })
         cardView("RTI Dashboard", onClick = {
             context.startActivity(
                 Intent(
@@ -50,6 +53,12 @@ fun HomeContent(navController: NavController) {
                     RTSDashBoard::class.java
                 )
             )
+        })
+        cardView("Vendor Dashboard", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.VendorBoard.route)
+        })
+        cardView("Open Access Dashboard", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.RTIBoard.route)
         })
     }
 }

@@ -7,6 +7,23 @@ object Constants {
     const val APIPassword = "Tvd1234!"
     const val MISG2G = "MISG2G"
 
+    val currentMonth = Calendar.getInstance().get(Calendar.MONTH)
+    val months = listOf(
+        "JAN",
+        "FEB",
+        "MAR",
+        "APR",
+        "MAY",
+        "JUN",
+        "JUL",
+        "AUG",
+        "SEP",
+        "OCT",
+        "NOV",
+        "DEC"
+    )
+
+
     fun generateFinancialYears(startYear: Int, numberOfYears: Int): List<String> {
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val financialYears = mutableListOf<String>()
@@ -24,4 +41,7 @@ object Constants {
 
     val getCurrentYear
         get() = Calendar.getInstance().get(Calendar.YEAR)
+
+    val monthYear
+        get() = "${months[currentMonth]}-$getCurrentYear"
 }

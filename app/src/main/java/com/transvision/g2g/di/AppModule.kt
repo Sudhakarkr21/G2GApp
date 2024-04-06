@@ -2,8 +2,11 @@ package com.transvision.g2g.di
 
 import com.transvision.g2g.di.loginrepository.LoginRepository
 import com.transvision.g2g.features.data.data_source.ApiService
+import com.transvision.g2g.ui.screen.dashboard.RTI.RTIRepository
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MisRepository
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentRepository
+import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDRepository
+import com.transvision.g2g.ui.screen.dashboard.vendor.VendorRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,4 +45,15 @@ object AppModule {
     @Provides
     @Singleton
     fun provideMISAccidentRepo(apiService: ApiService) = AccidentRepository(apiService)
+
+    @Provides
+    @Singleton
+    fun provideRNDRepo(apiService: ApiService) = RNDRepository(apiService)
+
+    @Provides
+    @Singleton
+    fun provideVendorRepo(apiService: ApiService) = VendorRepository(apiService)
+    @Provides
+    @Singleton
+    fun provideRTIRepo(apiService: ApiService) = RTIRepository(apiService)
 }
