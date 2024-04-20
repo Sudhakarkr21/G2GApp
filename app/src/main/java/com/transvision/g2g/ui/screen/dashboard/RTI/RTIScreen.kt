@@ -42,6 +42,8 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -54,10 +56,12 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.transvision.g2g.ui.screen.dashboard.custom.CustomToolbarScreen
+import com.transvision.g2g.ui.screen.dashboard.custom.getBottomLineShape
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.PieChartData
 import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDUIState
 import com.transvision.g2g.ui.screen.dashboard.vendor.NumberofApplications
 import com.transvision.g2g.ui.theme.Colors
+import com.transvision.g2g.ui.theme.Colors.bgColor
 import com.transvision.g2g.ui.theme.Colors.md_theme_dark_background
 import com.transvision.g2g.ui.theme.Colors.md_theme_dark_onBackground
 import com.transvision.g2g.ui.theme.Colors.md_theme_dark_onTertiary
@@ -104,13 +108,15 @@ fun RTIDashBoardScreen(navController: NavController) {
             rtiViewModel.getRTIData(rtiuiState)
         }
 
-        if (isViewVisible)
-        yearWise(rtiuiState){
-            rtiViewModel.getRTIData(rtiuiState)
+        if (isViewVisible){
+            yearWise(rtiuiState){
+                rtiViewModel.getRTIData(rtiuiState)
+            }
         }
-        if (!isViewVisible)
-        monthDate(rnduiState = rtiuiState) {
-            rtiViewModel.getRTIData(rtiuiState)
+        if (!isViewVisible){
+            monthDate(rnduiState = rtiuiState) {
+                rtiViewModel.getRTIData(rtiuiState)
+            }
         }
         Column(
             modifier = Modifier.padding(horizontal = 16.dp)
@@ -146,7 +152,13 @@ fun RTIDashBoardScreen(navController: NavController) {
 
                 for (applicationDetails in rtiModelState.rtiModel.Applicationdetails){
                     Row(
-                        modifier = Modifier.background(md_theme_light_onSecondary)
+                        modifier = Modifier.background(Colors.md_theme_light_onSecondary)
+                            .border(width = 1.dp,
+                                color = Color.LightGray,
+                                shape = getBottomLineShape(1.dp)
+                            )
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         DataCell(text = applicationDetails.TYPE?:"", color = md_theme_dark_background, width = 220.dp)
                         DataCell(text = applicationDetails.PIOSCOUNT?:"", color = md_theme_dark_background, width = 180.dp)
@@ -156,7 +168,7 @@ fun RTIDashBoardScreen(navController: NavController) {
                 }
 
             }
-            
+
             Spacer(modifier = Modifier.padding(4.dp))
         }
         zoneWisePieChart(rtiModelState.rtiModel)
@@ -227,11 +239,10 @@ fun DataCell(text: String,width: Dp = 120.dp,color: Color = md_theme_dark_onBack
     Text(
         text = " $text",
         modifier = Modifier
-            .width(width)
-            .border(width = 1.dp, color = md_theme_light_outline)
-            .height(26.dp),
-        color = color
-    )
+            .width(width),
+        color = color,
+        textAlign = TextAlign.Center,
+        lineHeight = 20.sp)
 }
 
 
@@ -352,19 +363,23 @@ fun customDate(rtiuiState: RTIUIState, onclick: (String) -> Unit) {
 @Composable
 fun zoneWisePieChart(rtiModel: RTIModel){
     val arrayList : ArrayList<PieChartData> = ArrayList()
-    if (rtiModel.piosli.isNotEmpty())
-    arrayList.add(
-        PieChartData(
-            "No Application",rtiModel.piosli[0].noofapplication?.toFloat()
+    if (rtiModel.piosli.isNotEmpty()){
+        arrayList.add(
+            PieChartData(
+                "No Application",rtiModel.piosli[0].noofapplication?.toFloat()
+            )
         )
-    )
-    if (rtiModel.Faa.isNotEmpty())
-    arrayList.add(
-        PieChartData(
-            "Appeal",
-            rtiModel.Faa[0].noofapplication?.toFloat()
+    }
+
+    if (rtiModel.Faa.isNotEmpty()){
+        arrayList.add(
+            PieChartData(
+                "Appeal",
+                rtiModel.Faa[0].noofapplication?.toFloat()
+            )
         )
-    )
+    }
+
     Log.d("PieChart", "zoneWisePieChart: ${arrayList}")
     pieChart(arrayList,"NUMBER OF APPLICATIONS")
 }
@@ -448,7 +463,7 @@ fun pieChart(arrayList : ArrayList<PieChartData>, title : String ) {
                                 Legend.LegendHorizontalAlignment.CENTER
 
                             // on below line we are specifying entry label color as white.
-                            this.setEntryLabelColor(Colors.md_theme_dark_onTertiaryContainer.toArgb())
+                            this.setEntryLabelColor(Colors.md_theme_dark_background.toArgb())
                         }
                     },
                         // on below line we are specifying modifier
@@ -493,7 +508,13 @@ fun updatePieChartWithData(
     ds.colors = arrayListOf(
         Colors.md_theme_dark_onError.toArgb(),
         Colors.md_theme_light_onTertiaryContainer.toArgb(),
-        Colors.md_theme_dark_onPrimary.toArgb()
+        Colors.md_theme_dark_secondary.toArgb(),
+        Colors.md_theme_dark_tertiary.toArgb(),
+        Colors.md_theme_dark_onPrimary.toArgb(),
+        Colors.textColor.toArgb(),
+        Colors.md_theme_dark_inversePrimary.toArgb(),
+        Colors.md_theme_light_errorContainer.toArgb(),
+        Colors.md_theme_light_secondaryContainer.toArgb()
     )
     // on below line we are specifying position for value
     ds.yValuePosition = PieDataSet.ValuePosition.INSIDE_SLICE
@@ -506,7 +527,7 @@ fun updatePieChartWithData(
     ds.sliceSpace = 2f
 
     // on below line we are specifying text color
-    ds.valueTextColor = Colors.bgColor.toArgb()
+    ds.valueTextColor = Colors.textColor.toArgb()
 
     // on below line we are specifying
     // text size for value.
@@ -522,6 +543,7 @@ fun updatePieChartWithData(
     // on below line we are setting this
     // pie data in chart data.
     chart.data = d
+    chart.isDrawHoleEnabled = true
 
     // on below line we are
     // calling invalidate in chart.

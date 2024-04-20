@@ -44,4 +44,7 @@ object Constants {
 
     val monthYear
         get() = "${months[currentMonth]}-$getCurrentYear"
+
+    val monthYearInt
+        get() = "${currentMonth + 1}-$getCurrentYear"
 }

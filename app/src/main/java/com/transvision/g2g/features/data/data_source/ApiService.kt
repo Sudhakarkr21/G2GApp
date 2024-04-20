@@ -2,9 +2,12 @@ package com.transvision.g2g.features.data.data_source
 
 import com.transvision.g2g.features.data.model.LoginResponse
 import com.transvision.g2g.ui.screen.dashboard.RTI.RTIModel
+import com.transvision.g2g.ui.screen.dashboard.dss.DSSModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MISDashBoardModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.SessionModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentModel
+import com.transvision.g2g.ui.screen.dashboard.openaccess.OpenAccessModel
+import com.transvision.g2g.ui.screen.dashboard.rcdashboard.RCModel
 import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDModel
 import com.transvision.g2g.ui.screen.dashboard.vendor.VendorModel
 import retrofit2.Response
@@ -76,4 +79,25 @@ interface ApiService {
         @Query("paramss") paramss : String,
         @Query("APIPassword") APIPassword : String
     ) : Response<RTIModel>
+
+    @GET("OA_DashBoard/OA_DashboardData")
+    suspend fun getOpenAccessData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("paramss") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<OpenAccessModel>
+
+    @GET("DSS_Account/DSS_AccountData")
+    suspend fun getDSSData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("paramss") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<DSSModel>
+
+    @GET("RC/GetDetails")
+    suspend fun getRCData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("Params") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<RCModel>
 }

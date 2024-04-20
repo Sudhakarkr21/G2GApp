@@ -20,5 +20,9 @@ sealed class NavigationRoutes {
         object RNDDashBoard : Authenticated(route = "RNDDashBoard")
         object VendorBoard : Authenticated(route = "VendorBoard")
         object RTIBoard : Authenticated(route = "RTIDashBoard")
+        object OpenAccessBoard : Authenticated(route = "OpenAccessDashBoard")
+        object DSSBoard : Authenticated(route = "DSSDashBoard")
+        object RCBoard : Authenticated(route = "RCDashBoard")
+        object EIBoard : Authenticated(route = "EIDashBoard")
     }
 }

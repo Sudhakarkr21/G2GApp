@@ -5,6 +5,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.border
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.transvision.g2g.ui.theme.Colors
 
 @Composable
 fun Table(
@@ -98,12 +100,14 @@ fun RowScope.TableCell(
 @Composable
 fun DrawScrollableView(content: @Composable () -> Unit, modifier: Modifier) {
     AndroidView(
-        modifier = modifier,
+        modifier = modifier
+            .border(width = 1.dp, color = Colors.bgColor),
         factory = {
             val scrollView = ScrollView(it)
             val layout = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             scrollView.layoutParams = layout
             scrollView.isVerticalFadingEdgeEnabled = true
+            scrollView.isHorizontalScrollBarEnabled = true
             scrollView.isScrollbarFadingEnabled = false
             scrollView.addView(ComposeView(it).apply {
                 setContent {

@@ -8,6 +8,10 @@ import com.transvision.g2g.ui.screen.approva.ApprovalScreen
 import com.transvision.g2g.ui.screen.dashboard.DashboardScreen
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MISDashBoardScreen
 import com.transvision.g2g.ui.screen.dashboard.RTI.RTIDashBoardScreen
+import com.transvision.g2g.ui.screen.dashboard.dss.DssDashboard
+import com.transvision.g2g.ui.screen.dashboard.eidashboard.EIDashboard
+import com.transvision.g2g.ui.screen.dashboard.openaccess.OpenAccessDashBoard
+import com.transvision.g2g.ui.screen.dashboard.rcdashboard.RCDashboardScreen
 import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDScreen
 import com.transvision.g2g.ui.screen.dashboard.tabs.HomeContent
 import com.transvision.g2g.ui.screen.dashboard.vendor.VendorDashBoard
@@ -90,6 +94,18 @@ fun NavGraphBuilder.authenticatedGraph(navController: NavController) {
         }
         composable(route = NavigationRoutes.Authenticated.RTIBoard.route){
             RTIDashBoardScreen(navController)
+        }
+        composable(route = NavigationRoutes.Authenticated.OpenAccessBoard.route){
+            OpenAccessDashBoard(navController)
+        }
+        composable(route = NavigationRoutes.Authenticated.DSSBoard.route){
+            DssDashboard(navController)
+        }
+        composable(route = NavigationRoutes.Authenticated.RCBoard.route){
+            RCDashboardScreen(navController)
+        }
+        composable(route = NavigationRoutes.Authenticated.EIBoard.route){
+            EIDashboard()
         }
     }
 }

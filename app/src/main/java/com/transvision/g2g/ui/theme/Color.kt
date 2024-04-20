@@ -76,3 +76,6 @@ val md_theme_dark_scrim = Color(0xFF000000)
 
 
 val seed = Color(0xFF0C2C44)
+val headerbg  = Color(0xFFF8F8F8)
+val columnheaderbg  = Color(0xFFF0F0F0)
+val columnheaderbg1  = Color(0xFFDCDCDC)

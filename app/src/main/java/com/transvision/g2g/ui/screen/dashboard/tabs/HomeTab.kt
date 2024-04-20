@@ -11,9 +11,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -38,6 +41,7 @@ fun HomeContent(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
     ) {
         Spacer(modifier = Modifier.padding(10.dp))
         cardView("MIS Dashboard", onClick = {
@@ -57,8 +61,20 @@ fun HomeContent(navController: NavController) {
         cardView("Vendor Dashboard", onClick = {
             navController.navigate(NavigationRoutes.Authenticated.VendorBoard.route)
         })
-        cardView("Open Access Dashboard", onClick = {
+        cardView("RTI Dashboard", onClick = {
             navController.navigate(NavigationRoutes.Authenticated.RTIBoard.route)
+        })
+        cardView("Open Access Dashboard", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.OpenAccessBoard.route)
+        })
+        cardView("Dission Supportive System", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.DSSBoard.route)
+        })
+        cardView("RAILWAY CLEARANCE", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.RCBoard.route)
+        })
+        cardView("EI DASH BOARD", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.EIBoard.route)
         })
     }
 }
@@ -73,7 +89,9 @@ fun cardView(title: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .padding(6.dp)
+            .padding(6.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.elevatedCardElevation(10.dp)
     ) {
         Row(
             horizontalArrangement = Arrangement.Start,

@@ -126,4 +126,7 @@ dependencies {
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     implementation ("com.google.accompanist:accompanist-flowlayout:0.27.0")
+
+    implementation ("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+
 }

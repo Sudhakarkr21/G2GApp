@@ -3,8 +3,11 @@ package com.transvision.g2g.di
 import com.transvision.g2g.di.loginrepository.LoginRepository
 import com.transvision.g2g.features.data.data_source.ApiService
 import com.transvision.g2g.ui.screen.dashboard.RTI.RTIRepository
+import com.transvision.g2g.ui.screen.dashboard.dss.DSSRepository
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MisRepository
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentRepository
+import com.transvision.g2g.ui.screen.dashboard.openaccess.OpenAccessRepository
+import com.transvision.g2g.ui.screen.dashboard.rcdashboard.RCRepository
 import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDRepository
 import com.transvision.g2g.ui.screen.dashboard.vendor.VendorRepository
 import dagger.Module
@@ -56,4 +59,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRTIRepo(apiService: ApiService) = RTIRepository(apiService)
+    @Provides
+    @Singleton
+    fun provideOpenAccessRepo(apiService: ApiService) = OpenAccessRepository(apiService)
+    @Provides
+    @Singleton
+    fun provideDSSRepo(apiService: ApiService) = DSSRepository(apiService)
+    @Provides
+    @Singleton
+    fun provideRCRepo(apiService: ApiService) = RCRepository(apiService)
 }
