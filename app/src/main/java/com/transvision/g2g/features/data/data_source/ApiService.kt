@@ -3,6 +3,7 @@ package com.transvision.g2g.features.data.data_source
 import com.transvision.g2g.features.data.model.LoginResponse
 import com.transvision.g2g.ui.screen.dashboard.RTI.RTIModel
 import com.transvision.g2g.ui.screen.dashboard.dss.DSSModel
+import com.transvision.g2g.ui.screen.dashboard.eidashboard.EIModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MISDashBoardModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.SessionModel
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentModel
@@ -100,4 +101,11 @@ interface ApiService {
         @Query("Params") paramss : String,
         @Query("APIPassword") APIPassword : String
     ) : Response<RCModel>
+
+    @GET("EIW/EIW_DashboardData")
+    suspend fun getEIData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("paramss") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<EIModel>
 }

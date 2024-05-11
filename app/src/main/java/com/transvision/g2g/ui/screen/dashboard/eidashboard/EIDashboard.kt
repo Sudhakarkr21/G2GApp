@@ -38,8 +38,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.transvision.g2g.ui.screen.dashboard.RTI.DataCell
 import com.transvision.g2g.ui.screen.dashboard.RTI.pieChart
+import com.transvision.g2g.ui.screen.dashboard.custom.CustomToolbarScreen
 import com.transvision.g2g.ui.screen.dashboard.custom.getBottomLineShape
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.PieChartData
 import com.transvision.g2g.ui.screen.dashboard.rcdashboard.RCModelState
@@ -54,9 +57,16 @@ import com.transvision.g2g.utils.Constants
 import com.transvision.g2g.utils.DrawScrollableView
 
 
-@Preview
 @Composable
-fun EIDashboard() {
+fun EIDashboard(navController: NavController) {
+
+    val eiViewModel: EIViewModel = hiltViewModel()
+
+    val eiModelState by remember {
+        mutableStateOf(
+            eiViewModel.state
+        )
+    }
 
     var rnduiState by remember {
         mutableStateOf(
@@ -71,6 +81,9 @@ fun EIDashboard() {
             .background(Colors.md_theme_light_onTertiary)
             .verticalScroll(rememberScrollState())
     ) {
+
+        CustomToolbarScreen(navController = navController, title = "EI DASH BOARD", true)
+
         customDate(rnduiState, onclick = {
 
             rnduiState = rnduiState.copy(
@@ -78,13 +91,16 @@ fun EIDashboard() {
                 monthYear = if (rnduiState.customDate == "Month Wise") Constants.monthYear else Constants.getCurrentFinancialYear(),
             )
             isViewVisible = (rnduiState.customDate == "Month Wise")
+
+            eiViewModel.getEIDashboard(rnduiState)
         })
         if (isViewVisible) {
             monthDate(rnduiState, onclick = {
+                eiViewModel.getEIDashboard(rnduiState)
             })
         } else {
             yearWise(rnduiState, onclick = {
-
+                eiViewModel.getEIDashboard(rnduiState)
             })
         }
 
@@ -123,7 +139,7 @@ fun EIDashboard() {
                         modifier = Modifier.padding(start = 4.dp)
                     )
                     Text(
-                        text = "39",
+                        text = eiModelState.value.eiModel.DRAWINGAPPROVAL?:"0",
                         color = Colors.md_theme_dark_inverseOnSurface,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(start = 4.dp)
@@ -148,13 +164,15 @@ fun EIDashboard() {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text(text = "Demand Note",
+                    Text(
+                        text = "Demand Note",
                         color = Colors.seed,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 4.dp))
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
                     Text(
-                        text = "12",
+                        text = eiModelState.value.eiModel.DEMANDNOTE?:"0",
                         color = Colors.md_theme_dark_inverseOnSurface,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(start = 4.dp)
@@ -198,7 +216,7 @@ fun EIDashboard() {
                         modifier = Modifier.padding(start = 4.dp)
                     )
                     Text(
-                        text = "39",
+                        text = eiModelState.value.eiModel.INSPECTION?:"0",
                         color = Colors.md_theme_dark_inverseOnSurface,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(start = 4.dp)
@@ -223,13 +241,15 @@ fun EIDashboard() {
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Text(text = "Safety Certificate",
+                    Text(
+                        text = "Safety Certificate",
                         color = Colors.seed,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 4.dp))
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
                     Text(
-                        text = "12",
+                        text = eiModelState.value.eiModel.SAFETYCERTIFICATE?:"0",
                         color = Colors.md_theme_dark_inverseOnSurface,
                         fontSize = 16.sp,
                         modifier = Modifier.padding(start = 4.dp)
@@ -256,98 +276,110 @@ fun EIDashboard() {
                 )
             }
         }
-        EIPieChart()
-        overAll()
+        EIPieChart(eiModelState.value.eiModel)
+        overAll(eiModelState.value.eiModel)
 
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
-            Box(
-                contentAlignment = Alignment.CenterStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-                    .background(md_theme_dark_onSurfaceVariant)
+        if (eiModelState.value.eiModel.DrawingApprovalTableData.isNotEmpty()){
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                Text(
-                    text = "Drawing Approval", modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 10.dp)
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .background(md_theme_dark_onSurfaceVariant)
+                ) {
+                    Text(
+                        text = "Drawing Approval", modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 10.dp)
 
-                )
+                    )
+                }
             }
+            drawingApproval(eiModelState.value.eiModel.DrawingApprovalTableData)
         }
-        drawingApproval()
 
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
-            Box(
-                contentAlignment = Alignment.CenterStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-                    .background(md_theme_dark_onSurfaceVariant)
+        if (eiModelState.value.eiModel.DemandNoteTableData.isNotEmpty()){
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                Text(
-                    text = "Demand Note", modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 10.dp)
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .background(md_theme_dark_onSurfaceVariant)
+                ) {
+                    Text(
+                        text = "Demand Note", modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 10.dp)
 
-                )
+                    )
+                }
             }
+            demandNote(eiModelState.value.eiModel.DemandNoteTableData)
         }
-        demandNote()
 
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
-            Box(
-                contentAlignment = Alignment.CenterStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-                    .background(md_theme_dark_onSurfaceVariant)
+        if (eiModelState.value.eiModel.SpotInsepctionTableData.isNotEmpty()){
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                Text(
-                    text = "Spot Insepction", modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 10.dp)
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .background(md_theme_dark_onSurfaceVariant)
+                ) {
+                    Text(
+                        text = "Spot Insepction", modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 10.dp)
 
-                )
+                    )
+                }
             }
-        }
-        spotInspection()
+            spotInspection(eiModelState.value.eiModel.SpotInsepctionTableData)
 
-        Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
-        ) {
-            Box(
-                contentAlignment = Alignment.CenterStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-                    .background(md_theme_dark_onSurfaceVariant)
+        }
+
+        if (eiModelState.value.eiModel.SafetyCertificateTableData.isNotEmpty()){
+            Column(
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
-                Text(
-                    text = "Safety Certificate", modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 10.dp)
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(40.dp)
+                        .background(md_theme_dark_onSurfaceVariant)
+                ) {
+                    Text(
+                        text = "Safety Certificate", modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(start = 10.dp)
 
-                )
+                    )
+                }
             }
+            safetyCertificate(eiModelState.value.eiModel.SafetyCertificateTableData)
         }
-        safetyCertificate()
     }
 }
 
 @Composable
-fun overAll(){
+fun overAll(eiModel: EIModel) {
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize()
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         Row(
             modifier = Modifier
                 .background(columnheaderbg1)
@@ -364,47 +396,130 @@ fun overAll(){
             .padding(bottom = 8.dp),
             content = {
                 Column {
-                    repeat(4){
-                        Row(
-                            modifier = Modifier
-                                .background(Colors.md_theme_light_onSecondary)
-                                .border(
-                                    width = 1.dp,
-                                    color = Color.LightGray,
-                                    shape = getBottomLineShape(1.dp)
-                                )
-                                .padding(top = 4.dp, bottom = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
+                    Row(
+                        modifier = Modifier
+                            .background(Colors.md_theme_light_onSecondary)
+                            .border(
+                                width = 1.dp,
+                                color = Color.LightGray,
+                                shape = getBottomLineShape(1.dp)
+                            )
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
 
-                            DataCell(
-                                 "1",
-                                color = Colors.md_theme_dark_background,
-                                width = 80.dp
+                        DataCell(
+                            "1",
+                            color = Colors.md_theme_dark_background,
+                            width = 80.dp
+                        )
+                        DataCell(
+                            text = "DRAWINGAPPROVAL",
+                            color = Colors.md_theme_dark_background,
+                            width = 180.dp
+                        )
+                        DataCell(
+                            text = eiModel.DRAWINGAPPROVAL?:"0",
+                            color = Colors.md_theme_dark_background
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .background(Colors.md_theme_light_onSecondary)
+                            .border(
+                                width = 1.dp,
+                                color = Color.LightGray,
+                                shape = getBottomLineShape(1.dp)
                             )
-                            DataCell(
-                                text =  "DRAWINGAPPROVAL",
-                                color = Colors.md_theme_dark_background,
-                                width = 180.dp
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        DataCell(
+                            "1",
+                            color = Colors.md_theme_dark_background,
+                            width = 80.dp
+                        )
+                        DataCell(
+                            text = "DEMANDNOTE",
+                            color = Colors.md_theme_dark_background,
+                            width = 180.dp
+                        )
+                        DataCell(
+                            text = eiModel.DEMANDNOTE?:"0",
+                            color = Colors.md_theme_dark_background
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .background(Colors.md_theme_light_onSecondary)
+                            .border(
+                                width = 1.dp,
+                                color = Color.LightGray,
+                                shape = getBottomLineShape(1.dp)
                             )
-                            DataCell(
-                                text =  "12",
-                                color = Colors.md_theme_dark_background
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        DataCell(
+                            "1",
+                            color = Colors.md_theme_dark_background,
+                            width = 80.dp
+                        )
+                        DataCell(
+                            text = "INSPECTION",
+                            color = Colors.md_theme_dark_background,
+                            width = 180.dp
+                        )
+                        DataCell(
+                            text = eiModel.INSPECTION?:"0",
+                            color = Colors.md_theme_dark_background
+                        )
+                    }
+                    Row(
+                        modifier = Modifier
+                            .background(Colors.md_theme_light_onSecondary)
+                            .border(
+                                width = 1.dp,
+                                color = Color.LightGray,
+                                shape = getBottomLineShape(1.dp)
                             )
-                        }
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        DataCell(
+                            "1",
+                            color = Colors.md_theme_dark_background,
+                            width = 80.dp
+                        )
+                        DataCell(
+                            text = "SAFETYCERTIFICATE",
+                            color = Colors.md_theme_dark_background,
+                            width = 180.dp
+                        )
+                        DataCell(
+                            text = eiModel.SAFETYCERTIFICATE?:"0",
+                            color = Colors.md_theme_dark_background
+                        )
                     }
                 }
             })
     }
 
 }
+
 @Composable
-fun drawingApproval(){
+fun drawingApproval(drawingApprovalTableDataList : List<DrawingApprovalTableData>) {
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize()
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         Row(
             modifier = Modifier
                 .background(columnheaderbg1)
@@ -425,7 +540,7 @@ fun drawingApproval(){
             .padding(bottom = 8.dp),
             content = {
                 Column {
-                    repeat(4){
+                    for (drawingApprovalTableData in drawingApprovalTableDataList){
                         Row(
                             modifier = Modifier
                                 .background(Colors.md_theme_light_onSecondary)
@@ -439,33 +554,33 @@ fun drawingApproval(){
                         ) {
 
                             DataCell(
-                                 "1",
+                                drawingApprovalTableData.slno?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 80.dp
                             )
                             DataCell(
-                                text =  "DRAWINGAPPROVAL",
+                                text = drawingApprovalTableData.project?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 180.dp
                             )
                             DataCell(
-                                text =  "29-12-2023",
+                                text = drawingApprovalTableData.subissiondate?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "addr_FROM_4",
+                                text = drawingApprovalTableData.Fromstation?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "addr_TO_4",
+                                text = drawingApprovalTableData.tostation?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "04-03-2024",
+                                text = drawingApprovalTableData.DEMANDISSUEDATE?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "548",
+                                text = drawingApprovalTableData.days_count?:"",
                                 color = Colors.md_theme_dark_background
                             )
                         }
@@ -475,13 +590,17 @@ fun drawingApproval(){
     }
 
 }
+
 @Composable
-fun demandNote(){
+fun demandNote(demandNoteTableDataList: List<DemandNoteTableData>) {
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize()
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         Row(
             modifier = Modifier
                 .background(columnheaderbg1)
@@ -500,7 +619,7 @@ fun demandNote(){
             .padding(bottom = 8.dp),
             content = {
                 Column {
-                    repeat(4){
+                    for (demandNoteTableData in demandNoteTableDataList) {
                         Row(
                             modifier = Modifier
                                 .background(Colors.md_theme_light_onSecondary)
@@ -514,25 +633,25 @@ fun demandNote(){
                         ) {
 
                             DataCell(
-                                 "1",
+                                demandNoteTableData.slno?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 80.dp
                             )
                             DataCell(
-                                text =  "DRAWINGAPPROVAL",
+                                text = demandNoteTableData.project?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 180.dp
                             )
                             DataCell(
-                                text =  "addr_FROM_4",
+                                text = demandNoteTableData.Fromstation?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "addr_TO_4",
+                                text = demandNoteTableData.tostation?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "04-03-2024",
+                                text = demandNoteTableData.DEMANDISSUEDATE?:"",
                                 color = Colors.md_theme_dark_background
                             )
                         }
@@ -544,12 +663,15 @@ fun demandNote(){
 }
 
 @Composable
-fun spotInspection(){
+fun spotInspection(spotInsepctionTableDataList: List<SpotInsepctionTableData>) {
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize()
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         Row(
             modifier = Modifier
                 .background(columnheaderbg1)
@@ -568,7 +690,7 @@ fun spotInspection(){
             .padding(bottom = 8.dp),
             content = {
                 Column {
-                    repeat(4){
+                    for (spotInsepctionTableData in spotInsepctionTableDataList) {
                         Row(
                             modifier = Modifier
                                 .background(Colors.md_theme_light_onSecondary)
@@ -582,25 +704,25 @@ fun spotInspection(){
                         ) {
 
                             DataCell(
-                                 "1",
+                                spotInsepctionTableData.slno?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 80.dp
                             )
                             DataCell(
-                                text =  "DRAWINGAPPROVAL",
+                                text = spotInsepctionTableData.project?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 180.dp
                             )
                             DataCell(
-                                text =  "addr_FROM_4",
+                                text = spotInsepctionTableData.INSDATE?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "addr_TO_4",
+                                text = spotInsepctionTableData.REINSPECTIONDATE?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "04-03-2024",
+                                text = spotInsepctionTableData.days_count?:"",
                                 color = Colors.md_theme_dark_background
                             )
                         }
@@ -611,12 +733,15 @@ fun spotInspection(){
 
 }
 @Composable
-fun safetyCertificate(){
+fun safetyCertificate(safetyCertificateTableDataList: List<SafetyCertificateTableData>) {
 
     val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.fillMaxSize()
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+    ) {
         Row(
             modifier = Modifier
                 .background(columnheaderbg1)
@@ -634,7 +759,7 @@ fun safetyCertificate(){
             .padding(bottom = 8.dp),
             content = {
                 Column {
-                    repeat(4){
+                    for (safetyCertificateTableData in safetyCertificateTableDataList){
                         Row(
                             modifier = Modifier
                                 .background(Colors.md_theme_light_onSecondary)
@@ -648,21 +773,21 @@ fun safetyCertificate(){
                         ) {
 
                             DataCell(
-                                 "1",
+                                safetyCertificateTableData.slno?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 80.dp
                             )
                             DataCell(
-                                text =  "DRAWINGAPPROVAL",
+                                text = safetyCertificateTableData.project?:"",
                                 color = Colors.md_theme_dark_background,
                                 width = 180.dp
                             )
                             DataCell(
-                                text =  "2024-01-01",
+                                text = safetyCertificateTableData.SCISSUEDATE?:"",
                                 color = Colors.md_theme_dark_background
                             )
                             DataCell(
-                                text =  "jdnojvnms",
+                                text = safetyCertificateTableData.SCNO?:"",
                                 color = Colors.md_theme_dark_background
                             )
                         }
@@ -675,32 +800,32 @@ fun safetyCertificate(){
 
 
 @Composable
-fun EIPieChart() {
+fun EIPieChart(eiModel: EIModel) {
     val arrayList: ArrayList<PieChartData> = ArrayList()
 
 
     arrayList.add(
         PieChartData(
             "DRAWINGAPPROVAL",
-            39F
+            eiModel.DRAWINGAPPROVAL?.toFloat()
         )
     )
     arrayList.add(
         PieChartData(
             "DEMANDNOTE",
-            12F
+            eiModel.DEMANDNOTE?.toFloat()
         )
     )
     arrayList.add(
         PieChartData(
             "INSPECTION",
-            10F
+            eiModel.INSPECTION?.toFloat()
         )
     )
     arrayList.add(
         PieChartData(
             "SAFETYCERTIFICATE",
-            11F
+            eiModel.SAFETYCERTIFICATE?.toFloat()
         )
     )
 
@@ -708,6 +833,7 @@ fun EIPieChart() {
     Log.d("PieChart", "zoneWisePieChart: ${arrayList}")
     pieChart(arrayList, "NUMBER OF APPLICATIONS")
 }
+
 @Composable
 fun customDate(rnduiState: RNDUIState, onclick: () -> Unit) {
 

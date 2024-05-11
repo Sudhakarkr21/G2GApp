@@ -1,21 +1,29 @@
 package com.transvision.g2g.ui.common.customeComposibleView
 
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.RemoveRedEye
 import androidx.compose.material3.*
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 import com.transvision.g2g.R
+import com.transvision.g2g.ui.theme.Colors.loginColor
 
 /**
  * Password Text Field
@@ -50,12 +58,12 @@ fun PasswordTextField(
             }) {
 
                 val visibleIconAndText = Pair(
-                    first = Icons.Outlined.FavoriteBorder,
+                    first = Icons.Filled.Visibility,
                     second = stringResource(id = R.string.icon_password_visible)
                 )
 
                 val hiddenIconAndText = Pair(
-                    first = Icons.Outlined.Favorite,
+                    first = Icons.Filled.VisibilityOff,
                     second = stringResource(id = R.string.icon_password_hidden)
                 )
 
@@ -79,6 +87,14 @@ fun PasswordTextField(
             keyboardController?.hide()
         }),
         isError = isError,
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = Color.Gray,
+            unfocusedBorderColor = Color.Gray,
+            focusedTextColor = loginColor,
+            focusedBorderColor = loginColor,
+            errorBorderColor = Color.Red,
+        ),
+        shape = RoundedCornerShape(10.dp),
         supportingText = {
             if (isError) {
                 ErrorTextInputField(text = errorText)
@@ -110,6 +126,14 @@ fun EmailTextField(
             Text(text = label)
         },
         maxLines = 1,
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = Color.Gray,
+            unfocusedBorderColor = Color.Gray,
+            focusedTextColor = loginColor,
+            focusedBorderColor = loginColor,
+            errorBorderColor = Color.Red,
+        ),
+        shape = RoundedCornerShape(10.dp),
         keyboardOptions = KeyboardOptions(
             keyboardType = KeyboardType.Email,
             imeAction = imeAction
@@ -151,6 +175,14 @@ fun MobileNumberTextField(
             keyboardType = KeyboardType.Phone,
             imeAction = imeAction
         ),
+        colors = OutlinedTextFieldDefaults.colors(
+            unfocusedTextColor = Color.Gray,
+            unfocusedBorderColor = Color.Gray,
+            focusedTextColor = loginColor,
+            focusedBorderColor = loginColor,
+            errorBorderColor = Color.Red,
+        ),
+        shape = RoundedCornerShape(10.dp),
         isError = isError,
         supportingText = {
             if (isError) {

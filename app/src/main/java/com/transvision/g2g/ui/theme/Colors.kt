@@ -82,4 +82,6 @@ object Colors {
     val textColor1 = Color(0xFF012970)
     val bgColor = Color(0xFFF0F0F0)
     val borderColor = Color(0xFFDCE1E5)
+
+    val loginColor = Color(0xFF1F41BB)
 }

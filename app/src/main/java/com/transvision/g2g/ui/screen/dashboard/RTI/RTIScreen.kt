@@ -239,10 +239,12 @@ fun DataCell(text: String,width: Dp = 120.dp,color: Color = md_theme_dark_onBack
     Text(
         text = " $text",
         modifier = Modifier
-            .width(width),
+            .width(width)
+            .padding(10.dp),
         color = color,
         textAlign = TextAlign.Center,
-        lineHeight = 20.sp)
+        lineHeight = 20.sp,
+        fontSize = 12.sp)
 }
 
 

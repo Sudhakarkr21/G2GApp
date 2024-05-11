@@ -105,7 +105,7 @@ fun NavGraphBuilder.authenticatedGraph(navController: NavController) {
             RCDashboardScreen(navController)
         }
         composable(route = NavigationRoutes.Authenticated.EIBoard.route){
-            EIDashboard()
+            EIDashboard(navController)
         }
     }
 }

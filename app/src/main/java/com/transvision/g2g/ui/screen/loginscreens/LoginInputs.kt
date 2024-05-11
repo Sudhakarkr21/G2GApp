@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import com.transvision.g2g.R
@@ -18,6 +20,7 @@ import com.transvision.g2g.ui.common.customeComposibleView.NormalButton
 import com.transvision.g2g.ui.common.customeComposibleView.PasswordTextField
 import com.transvision.g2g.ui.screen.loginscreens.state.LoginState
 import com.transvision.g2g.ui.theme.AppTheme
+import com.transvision.g2g.ui.theme.Colors.loginColor
 
 @Composable
 fun LoginInputs(
@@ -66,14 +69,15 @@ fun LoginInputs(
                     onForgotPasswordClick.invoke()
                 },
             text = stringResource(id = R.string.forgot_password),
-            color = MaterialTheme.colorScheme.secondary,
+            color = loginColor,
             textAlign = TextAlign.End,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            fontFamily = FontFamily(Font(R.font.poppins_semibold))
         )
 
         // Login Submit Button
         NormalButton(
-            modifier = Modifier.padding(top = AppTheme.dimens.paddingLarge),
+            modifier = Modifier.padding(top = AppTheme.dimens.paddingLarge).fillMaxWidth(),
             text = stringResource(id = R.string.login_button_text),
             onClick = onSubmit
         )

@@ -4,6 +4,7 @@ import com.transvision.g2g.di.loginrepository.LoginRepository
 import com.transvision.g2g.features.data.data_source.ApiService
 import com.transvision.g2g.ui.screen.dashboard.RTI.RTIRepository
 import com.transvision.g2g.ui.screen.dashboard.dss.DSSRepository
+import com.transvision.g2g.ui.screen.dashboard.eidashboard.EIRepository
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.MisRepository
 import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentRepository
 import com.transvision.g2g.ui.screen.dashboard.openaccess.OpenAccessRepository
@@ -68,4 +69,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRCRepo(apiService: ApiService) = RCRepository(apiService)
+    @Provides
+    @Singleton
+    fun provideEIRepo(apiService: ApiService) = EIRepository(apiService)
 }
