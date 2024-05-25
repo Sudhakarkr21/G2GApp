@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.transvision.g2g.ui.theme.Colors.loginColor
 import com.transvision.g2g.ui.theme.Colors.md_theme_light_primaryContainer
 import kotlinx.coroutines.launch
 
@@ -55,18 +56,18 @@ fun CustomToolbarScreen(navController: NavController, title: String, isBack: Boo
     }
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            containerColor = loginColor,
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Text(text = title,color = Color.Black,
+            Text(text = title,color = Color.White,
                 fontSize = 18.sp)
         },
-        modifier = Modifier.background(md_theme_light_primaryContainer),
+        modifier = Modifier.background(loginColor),
         navigationIcon = {
             if (isBack){
                 IconButton(onClick = {navController.navigateUp()}) {
-                    Icon(Icons.Filled.ArrowBack, "backIcon")
+                    Icon(Icons.Filled.ArrowBack, "backIcon", tint = Color.White)
                 }
             }else{
                 IconButton(onClick = {
@@ -74,7 +75,7 @@ fun CustomToolbarScreen(navController: NavController, title: String, isBack: Boo
                         Log.i("Drawer", "drawer Open: ")
                     }
                 }) {
-                    Icon(Icons.Filled.Menu, "backIcon")
+                    Icon(Icons.Filled.Menu, "backIcon", tint = Color.White)
                 }
             }
         }

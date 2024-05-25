@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -75,299 +76,311 @@ fun EIDashboard(navController: NavController) {
     }
     var isViewVisible by remember { mutableStateOf(true) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Colors.md_theme_light_onTertiary)
-            .verticalScroll(rememberScrollState())
-    ) {
-
-        CustomToolbarScreen(navController = navController, title = "EI DASH BOARD", true)
-
-        customDate(rnduiState, onclick = {
-
-            rnduiState = rnduiState.copy(
-                customDate = rnduiState.customDate,
-                monthYear = if (rnduiState.customDate == "Month Wise") Constants.monthYear else Constants.getCurrentFinancialYear(),
-            )
-            isViewVisible = (rnduiState.customDate == "Month Wise")
-
-            eiViewModel.getEIDashboard(rnduiState)
-        })
-        if (isViewVisible) {
-            monthDate(rnduiState, onclick = {
-                eiViewModel.getEIDashboard(rnduiState)
-            })
-        } else {
-            yearWise(rnduiState, onclick = {
-                eiViewModel.getEIDashboard(rnduiState)
-            })
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier
-                    .weight(1F)
-                    .height(100.dp)
-                    .background(Colors.md_theme_light_onPrimary),
-                colors = CardDefaults.cardColors(
-                    containerColor = Colors.md_theme_light_onPrimary,
-                ),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(100.dp),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        text = "Drawing Approval",
-                        color = Colors.seed,
-                        fontSize = 16.sp,
-                        fontStyle = FontStyle.Normal,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                    Text(
-                        text = eiModelState.value.eiModel.DRAWINGAPPROVAL?:"0",
-                        color = Colors.md_theme_dark_inverseOnSurface,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
-            }
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier
-                    .weight(1F)
-                    .height(100.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Colors.md_theme_light_onPrimary,
-                )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(100.dp),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        text = "Demand Note",
-                        color = Colors.seed,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                    Text(
-                        text = eiModelState.value.eiModel.DEMANDNOTE?:"0",
-                        color = Colors.md_theme_dark_inverseOnSurface,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
-            }
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier
-                    .weight(1F)
-                    .height(100.dp)
-                    .background(Colors.md_theme_light_onPrimary),
-                colors = CardDefaults.cardColors(
-                    containerColor = Colors.md_theme_light_onPrimary,
-                ),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(100.dp),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        text = "Spot Inspection",
-                        color = Colors.seed,
-                        fontSize = 16.sp,
-                        fontStyle = FontStyle.Normal,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                    Text(
-                        text = eiModelState.value.eiModel.INSPECTION?:"0",
-                        color = Colors.md_theme_dark_inverseOnSurface,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
-            }
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp
-                ),
-                modifier = Modifier
-                    .weight(1F)
-                    .height(100.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Colors.md_theme_light_onPrimary,
-                )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(100.dp),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        text = "Safety Certificate",
-                        color = Colors.seed,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                    Text(
-                        text = eiModelState.value.eiModel.SAFETYCERTIFICATE?:"0",
-                        color = Colors.md_theme_dark_inverseOnSurface,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 4.dp)
-                    )
-                }
-            }
-        }
-
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
         Column(
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Colors.md_theme_light_onTertiary)
+                .verticalScroll(rememberScrollState())
         ) {
-            Box(
-                contentAlignment = Alignment.CenterStart,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(40.dp)
-                    .background(md_theme_dark_onSurfaceVariant)
-            ) {
-                Text(
-                    text = "EI WORKS", modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(start = 10.dp)
 
+            CustomToolbarScreen(navController = navController, title = "EI DASH BOARD", true)
+
+            customDate(rnduiState, onclick = {
+
+                rnduiState = rnduiState.copy(
+                    customDate = rnduiState.customDate,
+                    monthYear = if (rnduiState.customDate == "Month Wise") Constants.monthYear else Constants.getCurrentFinancialYear(),
                 )
-            }
-        }
-        EIPieChart(eiModelState.value.eiModel)
-        overAll(eiModelState.value.eiModel)
+                isViewVisible = (rnduiState.customDate == "Month Wise")
 
-        if (eiModelState.value.eiModel.DrawingApprovalTableData.isNotEmpty()){
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.CenterStart,
+                eiViewModel.getEIDashboard(rnduiState)
+            })
+            if (isViewVisible) {
+                monthDate(rnduiState, onclick = {
+                    eiViewModel.getEIDashboard(rnduiState)
+                })
+            } else {
+                yearWise(rnduiState, onclick = {
+                    eiViewModel.getEIDashboard(rnduiState)
+                })
+            }
+
+            if (!eiViewModel.state.value.isloading){
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp)
-                        .background(md_theme_dark_onSurfaceVariant)
+                        .height(100.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
-                    Text(
-                        text = "Drawing Approval", modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 10.dp)
-
-                    )
+                    Card(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        ),
+                        modifier = Modifier
+                            .weight(1F)
+                            .height(100.dp)
+                            .background(Colors.md_theme_light_onPrimary),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Colors.md_theme_light_onPrimary,
+                        ),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(100.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Text(
+                                text = "Drawing Approval",
+                                color = Colors.seed,
+                                fontSize = 16.sp,
+                                fontStyle = FontStyle.Normal,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                            Text(
+                                text = eiModelState.value.eiModel.DRAWINGAPPROVAL?:"0",
+                                color = Colors.md_theme_dark_inverseOnSurface,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    }
+                    Card(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        ),
+                        modifier = Modifier
+                            .weight(1F)
+                            .height(100.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Colors.md_theme_light_onPrimary,
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(100.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Text(
+                                text = "Demand Note",
+                                color = Colors.seed,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                            Text(
+                                text = eiModelState.value.eiModel.DEMANDNOTE?:"0",
+                                color = Colors.md_theme_dark_inverseOnSurface,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    }
                 }
-            }
-            drawingApproval(eiModelState.value.eiModel.DrawingApprovalTableData)
-        }
 
-        if (eiModelState.value.eiModel.DemandNoteTableData.isNotEmpty()){
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.CenterStart,
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(40.dp)
-                        .background(md_theme_dark_onSurfaceVariant)
+                        .height(100.dp)
+                        .padding(horizontal = 16.dp, vertical = 8.dp)
                 ) {
-                    Text(
-                        text = "Demand Note", modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 10.dp)
-
-                    )
+                    Card(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        ),
+                        modifier = Modifier
+                            .weight(1F)
+                            .height(100.dp)
+                            .background(Colors.md_theme_light_onPrimary),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Colors.md_theme_light_onPrimary,
+                        ),
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(100.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Text(
+                                text = "Spot Inspection",
+                                color = Colors.seed,
+                                fontSize = 16.sp,
+                                fontStyle = FontStyle.Normal,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                            Text(
+                                text = eiModelState.value.eiModel.INSPECTION?:"0",
+                                color = Colors.md_theme_dark_inverseOnSurface,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    }
+                    Card(
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        ),
+                        modifier = Modifier
+                            .weight(1F)
+                            .height(100.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Colors.md_theme_light_onPrimary,
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(100.dp),
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Text(
+                                text = "Safety Certificate",
+                                color = Colors.seed,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                            Text(
+                                text = eiModelState.value.eiModel.SAFETYCERTIFICATE?:"0",
+                                color = Colors.md_theme_dark_inverseOnSurface,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(start = 4.dp)
+                            )
+                        }
+                    }
                 }
+
+                Column(
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                ) {
+                    Box(
+                        contentAlignment = Alignment.CenterStart,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                            .background(md_theme_dark_onSurfaceVariant)
+                    ) {
+                        Text(
+                            text = "EI WORKS", modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = 10.dp)
+
+                        )
+                    }
+                }
+                EIPieChart(eiModelState.value.eiModel)
+                overAll(eiModelState.value.eiModel)
+
+                if (eiModelState.value.eiModel.DrawingApprovalTableData.isNotEmpty()){
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.CenterStart,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .background(md_theme_dark_onSurfaceVariant)
+                        ) {
+                            Text(
+                                text = "Drawing Approval", modifier = Modifier
+                                    .align(Alignment.CenterStart)
+                                    .padding(start = 10.dp)
+
+                            )
+                        }
+                    }
+                    drawingApproval(eiModelState.value.eiModel.DrawingApprovalTableData)
+                }
+
+                if (eiModelState.value.eiModel.DemandNoteTableData.isNotEmpty()){
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.CenterStart,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .background(md_theme_dark_onSurfaceVariant)
+                        ) {
+                            Text(
+                                text = "Demand Note", modifier = Modifier
+                                    .align(Alignment.CenterStart)
+                                    .padding(start = 10.dp)
+
+                            )
+                        }
+                    }
+                    demandNote(eiModelState.value.eiModel.DemandNoteTableData)
+                }
+
+                if (eiModelState.value.eiModel.SpotInsepctionTableData.isNotEmpty()){
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.CenterStart,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .background(md_theme_dark_onSurfaceVariant)
+                        ) {
+                            Text(
+                                text = "Spot Insepction", modifier = Modifier
+                                    .align(Alignment.CenterStart)
+                                    .padding(start = 10.dp)
+
+                            )
+                        }
+                    }
+                    spotInspection(eiModelState.value.eiModel.SpotInsepctionTableData)
+
+                }
+
+                if (eiModelState.value.eiModel.SafetyCertificateTableData.isNotEmpty()){
+                    Column(
+                        modifier = Modifier.padding(horizontal = 16.dp)
+                    ) {
+                        Box(
+                            contentAlignment = Alignment.CenterStart,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(40.dp)
+                                .background(md_theme_dark_onSurfaceVariant)
+                        ) {
+                            Text(
+                                text = "Safety Certificate", modifier = Modifier
+                                    .align(Alignment.CenterStart)
+                                    .padding(start = 10.dp)
+
+                            )
+                        }
+                    }
+                    safetyCertificate(eiModelState.value.eiModel.SafetyCertificateTableData)
+                }
+
             }
-            demandNote(eiModelState.value.eiModel.DemandNoteTableData)
         }
 
-        if (eiModelState.value.eiModel.SpotInsepctionTableData.isNotEmpty()){
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .background(md_theme_dark_onSurfaceVariant)
-                ) {
-                    Text(
-                        text = "Spot Insepction", modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 10.dp)
-
-                    )
-                }
-            }
-            spotInspection(eiModelState.value.eiModel.SpotInsepctionTableData)
-
-        }
-
-        if (eiModelState.value.eiModel.SafetyCertificateTableData.isNotEmpty()){
-            Column(
-                modifier = Modifier.padding(horizontal = 16.dp)
-            ) {
-                Box(
-                    contentAlignment = Alignment.CenterStart,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(40.dp)
-                        .background(md_theme_dark_onSurfaceVariant)
-                ) {
-                    Text(
-                        text = "Safety Certificate", modifier = Modifier
-                            .align(Alignment.CenterStart)
-                            .padding(start = 10.dp)
-
-                    )
-                }
-            }
-            safetyCertificate(eiModelState.value.eiModel.SafetyCertificateTableData)
-        }
+        if (eiViewModel.state.value.isloading)
+            CircularProgressIndicator()
     }
+
 }
 
 @Composable

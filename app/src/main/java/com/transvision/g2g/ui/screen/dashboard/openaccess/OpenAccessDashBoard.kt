@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -31,6 +32,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +57,7 @@ import com.transvision.g2g.ui.theme.Colors
 import com.transvision.g2g.ui.theme.Colors.md_theme_light_onPrimary
 import com.transvision.g2g.ui.theme.md_theme_dark_onSurfaceVariant
 import com.transvision.g2g.utils.Constants
+import com.transvision.g2g.utils.Constants.monthYearInt
 import com.transvision.g2g.utils.DrawScrollableView
 import com.transvision.g2g.utils.MonthPicker
 import kotlinx.coroutines.launch
@@ -64,8 +67,13 @@ fun OpenAccessDashBoard(navController: NavController) {
 
 
     val openAccessViewModel : OpenAccessViewModel = hiltViewModel()
+    var booleanLoading by remember {
+        mutableStateOf(openAccessViewModel.state.value.loader)
+    }
     val scope = rememberCoroutineScope()
-
+    LaunchedEffect(key1 = Unit) {
+        openAccessViewModel.getOpenAccessData(monthYearInt)
+    }
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -87,7 +95,8 @@ fun OpenAccessDashBoard(navController: NavController) {
             }
 
             Column(
-                modifier = Modifier.border(width = 1.dp, color = Colors.md_theme_light_surface)
+                modifier = Modifier
+                    .border(width = 1.dp, color = Colors.md_theme_light_surface)
                     .padding(horizontal = 16.dp)
             ) {
                 Column(
@@ -114,7 +123,8 @@ fun OpenAccessDashBoard(navController: NavController) {
 
 
             Column(
-                modifier = Modifier.border(width = 1.dp, color = Colors.md_theme_light_surface)
+                modifier = Modifier
+                    .border(width = 1.dp, color = Colors.md_theme_light_surface)
                     .padding(horizontal = 16.dp)
                     .padding(top = 8.dp)
 
@@ -209,6 +219,7 @@ fun MeterDataPieChart(viewModel: OpenAccessViewModel){
 @Composable
 fun SCHEDULEDATAViewDataScreen(openAccessViewModel: OpenAccessViewModel) {
     val scrollState = rememberScrollState()
+    val listState = rememberLazyListState()
 
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -221,39 +232,45 @@ fun SCHEDULEDATAViewDataScreen(openAccessViewModel: OpenAccessViewModel) {
             DataCell(text = "Type")
             DataCell(text = "IMP/EXP")
         }
-        DrawScrollableView(modifier = Modifier
+        Column(modifier = Modifier.height(300.dp).horizontalScroll(scrollState)) {
+            LazyColumn(modifier = Modifier.wrapContentHeight(),listState) {
+                items(openAccessViewModel.state.value.openAccessModel.ScheduleData){ item ->
+                    Row(
+                        modifier = Modifier
+                            .background(Colors.md_theme_light_onSecondary)
+                            .border(
+                                width = 1.dp,
+                                color = Color.LightGray,
+                                shape = getBottomLineShape(1.dp)
+                            )
+                            .padding(top = 4.dp, bottom = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+
+                        DataCell(item.cmpId?:"", color = Colors.md_theme_dark_background, width = 80.dp)
+                        DataCell(
+                            text = item.cmpName?:"",
+                            color = Colors.md_theme_dark_background,
+                            width = 330.dp
+                        )
+                        DataCell(
+                            text = item.TYPE?:"",
+                            color = Colors.md_theme_dark_background
+                        )
+                        DataCell(text = "IMPORT", color = Colors.md_theme_dark_onTertiary)
+
+                    }
+                }
+            }
+        }
+        /*DrawScrollableView(modifier = Modifier
             .height(300.dp)
             .horizontalScroll(scrollState)
             .verticalScroll(rememberScrollState())
             .padding(bottom = 8.dp),
             content = {
-                Column {
-                   for (item in openAccessViewModel.state.value.openAccessModel.ScheduleData){
-                    Row(
-                        modifier = Modifier.background(Colors.md_theme_light_onSecondary)
-                            .border(width = 1.dp,
-                                color = Color.LightGray,
-                                shape = getBottomLineShape(1.dp))
-                            .padding(top = 4.dp, bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
 
-                            DataCell(item.cmpId?:"", color = Colors.md_theme_dark_background, width = 80.dp)
-                            DataCell(
-                                text = item.cmpName?:"",
-                                color = Colors.md_theme_dark_background,
-                                width = 330.dp
-                            )
-                            DataCell(
-                                text = item.TYPE?:"",
-                                color = Colors.md_theme_dark_background
-                            )
-                            DataCell(text = "IMPORT", color = Colors.md_theme_dark_onTertiary)
-
-                        }
-                    }
-                }
-            })
+            })*/
     }
 }
 @Composable
@@ -283,8 +300,10 @@ fun METEREDDATAViewDataScreen(viewModel: OpenAccessViewModel) {
                     LazyColumn(modifier = Modifier.height(300.dp)){
                         items(viewModel.state.value.openAccessModel.MeterData){
                             Row(
-                                modifier = Modifier.background(Colors.md_theme_light_onSecondary)
-                                    .border(width = 1.dp,
+                                modifier = Modifier
+                                    .background(Colors.md_theme_light_onSecondary)
+                                    .border(
+                                        width = 1.dp,
                                         color = Color.LightGray,
                                         shape = getBottomLineShape(1.dp)
                                     )
