@@ -10,7 +10,9 @@ import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentMod
 import com.transvision.g2g.ui.screen.dashboard.openaccess.OpenAccessModel
 import com.transvision.g2g.ui.screen.dashboard.rcdashboard.RCModel
 import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDModel
+import com.transvision.g2g.ui.screen.dashboard.rtdashboard.RTModel
 import com.transvision.g2g.ui.screen.dashboard.vendor.VendorModel
+import com.transvision.g2g.ui.screen.dashboard.wheelingbanking.WheelingBankingModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -108,4 +110,18 @@ interface ApiService {
         @Query("paramss") paramss : String,
         @Query("APIPassword") APIPassword : String
     ) : Response<EIModel>
+
+    @GET("WheelingBanking/WBDASHBOARD_OLD")
+    suspend fun getWheelingAndBillingData(
+        @Query("DB_Name") DB_Name : String,
+        @Query("param") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<WheelingBankingModel>
+
+    @GET("RT_/GetMonthWiseDetails")
+    suspend fun getRTDetails(
+        @Query("DB_Name") DB_Name : String,
+        @Query("param") paramss : String,
+        @Query("APIPassword") APIPassword : String
+    ) : Response<RTModel>
 }

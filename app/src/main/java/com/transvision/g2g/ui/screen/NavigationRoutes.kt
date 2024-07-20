@@ -24,5 +24,7 @@ sealed class NavigationRoutes {
         object DSSBoard : Authenticated(route = "DSSDashBoard")
         object RCBoard : Authenticated(route = "RCDashBoard")
         object EIBoard : Authenticated(route = "EIDashBoard")
+        object WheelingAndBankingBoard : Authenticated(route = "WHEELING AND BANKING DASHBOARD")
+        object RTBoard : Authenticated(route = "RT Board")
     }
 }

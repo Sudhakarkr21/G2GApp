@@ -10,7 +10,9 @@ import com.transvision.g2g.ui.screen.dashboard.misdashboard.accident.AccidentRep
 import com.transvision.g2g.ui.screen.dashboard.openaccess.OpenAccessRepository
 import com.transvision.g2g.ui.screen.dashboard.rcdashboard.RCRepository
 import com.transvision.g2g.ui.screen.dashboard.rnddashboard.RNDRepository
+import com.transvision.g2g.ui.screen.dashboard.rtdashboard.RTRepo
 import com.transvision.g2g.ui.screen.dashboard.vendor.VendorRepository
+import com.transvision.g2g.ui.screen.dashboard.wheelingbanking.WheelingAndBillingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,4 +74,10 @@ object AppModule {
     @Provides
     @Singleton
     fun provideEIRepo(apiService: ApiService) = EIRepository(apiService)
+    @Provides
+    @Singleton
+    fun provideRTRepo(apiService: ApiService) = RTRepo(apiService)
+    @Provides
+    @Singleton
+    fun provideWheelingAndBankingRepo(apiService: ApiService) = WheelingAndBillingRepository(apiService)
 }

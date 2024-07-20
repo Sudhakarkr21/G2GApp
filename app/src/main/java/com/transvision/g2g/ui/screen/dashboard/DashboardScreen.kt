@@ -51,6 +51,7 @@ import androidx.navigation.compose.rememberNavController
 import com.transvision.g2g.ui.screen.dashboard.tabs.ApprovalTab
 import com.transvision.g2g.ui.screen.dashboard.tabs.HomeContent
 import com.transvision.g2g.ui.screen.dashboard.tabs.SettingsTab
+import com.transvision.g2g.ui.theme.Colors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -64,13 +65,14 @@ fun DashboardScreen(navController: NavController) {
         topBar = {
             TopAppBar(
                 title = {
-                    Text(text = tabs[selectedTab])
+                    Text(text = tabs[selectedTab], color = androidx.compose.ui.graphics.Color.White)
                 },
                 actions = {
                     IconButton(onClick = { /* Handle overflow menu click */ }) {
-                        Icon(imageVector = Icons.Default.Notifications, contentDescription = null)
+                        Icon(imageVector = Icons.Default.Notifications, contentDescription = null, tint = androidx.compose.ui.graphics.Color.White)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Colors.textColor1)
             )
         }
     ) {

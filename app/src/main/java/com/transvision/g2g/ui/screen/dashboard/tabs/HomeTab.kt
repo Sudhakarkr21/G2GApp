@@ -23,17 +23,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.transvision.g2g.ui.activity.RTSDashBoard
 import com.transvision.g2g.ui.screen.NavigationRoutes
+import kotlin.random.Random
+
+@Composable
+@Preview(showBackground = true)
+fun HomePreview(){
+    HomeContent(navController = rememberNavController())
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(showBackground = true)
 fun HomeContent(navController: NavController) {
     val context = LocalContext.current
 
@@ -46,6 +55,9 @@ fun HomeContent(navController: NavController) {
         Spacer(modifier = Modifier.padding(10.dp))
         cardView("MIS Dashboard", onClick = {
             navController.navigate(NavigationRoutes.Authenticated.MISDashBoard.route)
+        })
+        cardView("WHEELING AND BANKING DASHBOARD", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.WheelingAndBankingBoard.route)
         })
         cardView("RND Dashboard", onClick = {
             navController.navigate(NavigationRoutes.Authenticated.RNDDashBoard.route)
@@ -76,12 +88,29 @@ fun HomeContent(navController: NavController) {
         cardView("EI DASH BOARD", onClick = {
             navController.navigate(NavigationRoutes.Authenticated.EIBoard.route)
         })
+        cardView("RT DASH BOARD", onClick = {
+            navController.navigate(NavigationRoutes.Authenticated.RTBoard.route)
+        })
     }
+}
+
+fun getRandomDarkColor(): Color {
+    val red = Random.nextInt(120) // Adjust this range for darker or lighter colors
+    val green = Random.nextInt(120)
+    val blue = Random.nextInt(120)
+    return Color(red, green, blue)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun cardView(title: String, onClick: () -> Unit) {
+    /*val gradient = Brush.linearGradient(
+        0.0f to getRandomDarkColor(),
+        500.0f to getRandomDarkColor(),
+        start = Offset.Zero,
+        end = Offset.Infinite
+    )*/
+
     Card(
         onClick = {
             onClick()
@@ -89,7 +118,7 @@ fun cardView(title: String, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .padding(6.dp),
+            .padding(horizontal = 6.dp, vertical = 2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.elevatedCardElevation(10.dp)
     ) {

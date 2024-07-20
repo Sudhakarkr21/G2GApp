@@ -126,7 +126,9 @@ fun RNDScreen(navController: NavController) {
                     quarterWise(rnduiState, onclick = {
                         rndViewModel.getRNDDashboard(rnduiState)
                     })
-                zoneWise()
+                zoneWise(rnduiState, onclick = {
+                   // rtViewModel.getRTData(rnduiState)
+                })
                 oilTanTestDataView(rndModelState)
                 oilTableData()
 
@@ -402,9 +404,9 @@ fun oilTanTestDataView(rndState: RNDState) {
 }
 
 @Composable
-fun zoneWise() {
+fun zoneWise(rnduiState: RNDUIState, onclick: () -> Unit) {
     val items =
-        listOf<String>("ALL", "Banglore", "Tumkur", "Mysuru", "Hassan", "Bagalkot", "Kalaburagi")
+        listOf<String>("ALL", "Bangalore", "Tumkur", "Mysuru", "Hassan", "Bagalkot", "Kalaburagi")
 
     var expanded by remember { mutableStateOf(false) }
     var selectedItem by remember { mutableStateOf("ALL") }
@@ -427,7 +429,7 @@ fun zoneWise() {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = selectedItem,
+                    text = rnduiState.zone,
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
                 Icon(
@@ -447,7 +449,8 @@ fun zoneWise() {
                         Text(text = item)
                     }, onClick = {
                         expanded = false
-                        selectedItem = item
+                        rnduiState.zone = item
+                        onclick()
                     }
                     )
                 }

@@ -300,11 +300,16 @@ fun barChartDSS(dssViewModel : DSSViewModel){
             dssViewModel.state.value.dssModel.GraphData[0].liability?.toFloat()?:0.0F))
     }
 
-    barChart(arrayList = arrayList, title = "KAS CALCULATIONS")
+    val xLabels = ArrayList<String>()
+    xLabels.add("Assets")
+    xLabels.add("Expenditure")
+    xLabels.add("Income")
+    xLabels.add("Liability")
+    barChart(arrayList = arrayList, title = "KAS CALCULATIONS",xLabels)
 }
 
 @Composable
-fun barChart(arrayList : ArrayList<BarEntry>, title : String ) {
+fun barChart(arrayList : ArrayList<BarEntry>, title : String, xLabels : ArrayList<String> ) {
     // on below line we are creating a column
     // and specifying a modifier as max size.
     Column(modifier = Modifier
@@ -372,11 +377,7 @@ fun barChart(arrayList : ArrayList<BarEntry>, title : String ) {
                             this.legend.textSize = 14F
 
 
-                            val xLabels = ArrayList<String>()
-                            xLabels.add("Assets")
-                            xLabels.add("Expenditure")
-                            xLabels.add("Income")
-                            xLabels.add("Liability")
+
 
                             val xAxisFormatter = object : IndexAxisValueFormatter() {
                                 override fun getFormattedValue(value: Float): String {
@@ -386,9 +387,9 @@ fun barChart(arrayList : ArrayList<BarEntry>, title : String ) {
 
                             val xAxis = this.xAxis
                             xAxis.valueFormatter = xAxisFormatter;
-                            xAxis.setLabelCount(4, true)
+                            //xAxis.setLabelCount(4, true)
                             xAxis.valueFormatter = xAxisFormatter
-                            xAxis.labelCount = 4
+                            //xAxis.labelCount = 4
                             xAxis.granularity = 1F
                             xAxis.isGranularityEnabled = true
 

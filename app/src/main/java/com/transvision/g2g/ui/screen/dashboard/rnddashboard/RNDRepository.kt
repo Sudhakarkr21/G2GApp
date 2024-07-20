@@ -18,18 +18,20 @@ class RNDRepository(private val apiService: ApiService) {
         }
 
         Log.d(TAG, "getRDData: monthConvsertion $monthConvsertion")
-        return if (rnduiState.customDate == "Quarterly Wise"){
-            val regex = Regex("""\((Q\d)\)""")
-            val matchResult = regex.find(rnduiState.quarter)
-            val quarter = matchResult?.let {
-                it.groupValues[1]
-            }
-            Log.d(TAG, "getRDData: quarter ${quarter}")
-            apiService.getRNDDataQuarter("RT_RND_G2G",monthConvsertion,quarter!!,"Tvd1234!")
+        return when (rnduiState.customDate) {
+            "Quarterly Wise" -> {
+                val regex = Regex("""\((Q\d)\)""")
+                val matchResult = regex.find(rnduiState.quarter)
+                val quarter = matchResult?.let {
+                    it.groupValues[1]
+                }
+                Log.d(TAG, "getRDData: quarter ${quarter}")
+                apiService.getRNDDataQuarter("RT_RND_G2G",monthConvsertion,quarter!!,"Tvd1234!")
 
-        } else if (rnduiState.customDate == "Month Wise")
-            apiService.getRNDData("RT_RND_G2G",monthConvsertion,"Tvd1234!")
-        else apiService.getRNDDataYear("RT_RND_G2G",monthConvsertion,"Tvd1234!")
+            }
+            "Month Wise" -> apiService.getRNDData("RT_RND_G2G",monthConvsertion,"Tvd1234!")
+            else -> apiService.getRNDDataYear("RT_RND_G2G",monthConvsertion,"Tvd1234!")
+        }
 
     }
 }
